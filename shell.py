@@ -46,17 +46,17 @@ def execute_personal(cmd):
 
         # send output
         answer = "answer|" + str(unique_id) + "|" + output.decode('utf-8') + "|" + error.decode('utf-8')
-        broadcast_server.sendto(answer.encode("utf-8"), ('<broadcast>', 11722))
+        broadcast_server.sendto(answer.encode("utf-8"), ('255.255.255.255', 11722))
     except Exception as e:
         print(e)
         answer = "answer|" + str(unique_id) + "|" + str(e)
-        broadcast_server.sendto(answer.encode("utf-8"), ('<broadcast>', 11722))
+        broadcast_server.sendto(answer.encode("utf-8"), ('255.255.255.255', 11722))
 
 
 def execute(msg):
     if msg == 'ping':
         answer = 'pong|' + str(unique_id)
-        broadcast_server.sendto(answer.encode("utf-8"), ('<broadcast>', 11722))
+        broadcast_server.sendto(answer.encode("utf-8"), ('255.255.255.255', 11722))
 
     if msg.startswith(unique_id):
         msglst = msg.split('|')

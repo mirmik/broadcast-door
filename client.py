@@ -34,7 +34,7 @@ client.bind(('', 11722))
         
 
 if args.list:
-    client.sendto("ping".encode("utf-8"), ('<broadcast>', 11722))
+    client.sendto("ping".encode("utf-8"), ("255.255.255.255", 11722))
     
     messages = []
 
@@ -64,7 +64,7 @@ if args.chat:
 
     while True:
         msg = input()
-        client.sendto(msg.encode("utf-8"), ('<broadcast>', 11722))
+        client.sendto(msg.encode("utf-8"), ("255.255.255.255", 11722))
     
 
 if args.id is None:
