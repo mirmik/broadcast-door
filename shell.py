@@ -7,7 +7,7 @@ import subprocess
 import os
 import base64 as b64
 
-broadcast_server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+broadcast_server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
 broadcast_server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 broadcast_server.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 

@@ -23,7 +23,7 @@ def signal_handler(signal, frame):
 
 signal.signal(signal.SIGINT, signal_handler)
 
-client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
 client.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 client.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
@@ -34,7 +34,7 @@ client.bind(('', 11722))
         
 
 if args.list:
-    client.sendto("ping".encode("utf-8"), ("255.255.255.255", 11722))
+    client.sendto("ping".encode("utf-8"), ("<broadcast>", 11722))
     
     messages = []
 
@@ -49,7 +49,7 @@ if args.list:
                 msglst = msg.split('|')
                 msglst.pop(0)
                 msg = '|'.join(msglst)
-                print(msg)
+                print(f"{msg} {addr}")
         except socket.timeout:
             break
     exit(0)       
@@ -64,7 +64,7 @@ if args.chat:
 
     while True:
         msg = input()
-        client.sendto(msg.encode("utf-8"), ("255.255.255.255", 11722))
+        client.sendto(msg.encode("utf-8"), ("<broadcast>", 11722))
     
 
 if args.id is None:
@@ -73,7 +73,7 @@ if args.id is None:
 else:
     uid = args.id
     cmd = " ".join(args.args)
-    client.sendto(uid.encode("utf-8") + b"|" + cmd.encode("utf-8"), ('<broadcast>', 11722))
+    client.sendto(uid.encode("utf-8") + b"|" + cmd.encode("utf-8"), ('255.255.255.255', 11722))
 
     while True:
         data, addr = client.recvfrom(1024)
