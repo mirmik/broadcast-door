@@ -13,6 +13,7 @@ parser = argparse.ArgumentParser(description='Broadcast shell client')
 parser.add_argument('-i', '--id', help='Unique ID', default=None)
 parser.add_argument('-l', '--list', help='List all servers', action='store_true')
 parser.add_argument('-c', '--chat', help='Chat with servers', action='store_true')
+parser.add_argument('-b', '--broadcast_ip', help='Broadcast IP', default='<broadcast>')
 parser.add_argument('args', nargs='*')
 args = parser.parse_args()
 
@@ -28,13 +29,11 @@ client.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 client.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
 client.bind(('', 11722))
-    
-
-    
         
 
 if args.list:
-    client.sendto("ping".encode("utf-8"), ("<broadcast>", 11722))
+    broadcast_ip = args.broadcast_ip
+    client.sendto("ping".encode("utf-8"), (broadcast_ip, 11722))
     
     messages = []
 
