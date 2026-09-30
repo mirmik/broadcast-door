@@ -8,6 +8,8 @@ import os
 import base64
 
 import argparse
+
+MAXSIZE = 2048
     
 parser = argparse.ArgumentParser(description='Broadcast shell client')
 parser.add_argument('-i', '--id', help='Unique ID', default=None)
@@ -41,7 +43,7 @@ if args.list:
     client.settimeout(1)
     while True:
         try:
-            data, addr = client.recvfrom(1024)
+            data, addr = client.recvfrom(MAXSIZE)
             messages.append(data)
             msg = data.decode("utf-8")
             if msg.startswith('pong'):
@@ -56,7 +58,7 @@ if args.list:
 if args.chat:
     def receive():
         while True:
-            data, addr = client.recvfrom(1024)
+            data, addr = client.recvfrom(MAXSIZE)
             print("Received from %s: %s" % (addr, data))
     
     threading.Thread(target=receive).start()
